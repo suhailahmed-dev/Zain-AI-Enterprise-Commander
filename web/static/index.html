@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zain AI Enterprise — 3D Command Center Dashboard</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Orbitron:wght@600;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <!-- Three.js for 3D Workspace Mode -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+</head>
+<body>
+    <div class="app-layout">
+        <!-- 1. LEFT SIDEBAR -->
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <div class="brand-hexagon">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                        <polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5" stroke="#38bdf8" stroke-width="2" fill="rgba(56, 189, 248, 0.15)"/>
+                        <circle cx="12" cy="12" r="3.5" fill="#38bdf8"/>
+                    </svg>
+                </div>
+                <div class="brand-text">
+                    <span class="brand-title">Zain AI Enterprise</span>
+                    <span class="brand-tagline">Smarter Together</span>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <button class="nav-item active" onclick="switchMainView('overview')">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                    <span>Home & Overview</span>
+                </button>
+                <button class="nav-item" onclick="switchMainView('focus')">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    <span>Agents Directory</span>
+                </button>
+                <button class="nav-item" onclick="switchMainView('3d')">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+                    <span>3D Flow Matrix</span>
+                </button>
+                <button class="nav-item" onclick="scrollToSection('tasks-section')">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+                    <span>Tasks Queue</span>
+                </button>
+                <button class="nav-item" onclick="scrollToSection('logs-section')">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+                    <span>Live Telemetry</span>
+                </button>
+            </nav>
+
+            <div class="sidebar-status-card">
+                <div class="status-indicator-row">
+                    <span class="live-dot-pulse"></span>
+                    <span class="status-headline">System Online</span>
+                </div>
+                <div class="status-sub">All 8 agents synchronized</div>
+                <div class="status-meta">
+                    <span>Uptime</span>
+                    <span class="uptime-val" id="system-uptime">24h 42m</span>
+                </div>
+            </div>
+
+            <div class="sidebar-user">
+                <div class="user-avatar">Z</div>
+                <div class="user-info">
+                    <span class="user-name">Zain</span>
+                    <span class="user-role">Founder / CEO</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- 2. MAIN CONTENT AREA -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="top-header">
+                <div class="header-left">
+                    <h1 class="welcome-heading">Hello Zain 👋</h1>
+                    <p class="welcome-sub">Here's what your autonomous multi-agent system is working on right now.</p>
+                </div>
+                <div class="header-right">
+                    <button class="action-btn voice-btn" onclick="playVoiceAnnouncement()">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+                        <span>اردو وائس الرٹ</span>
+                    </button>
+                    <button class="action-btn" onclick="refreshStatus()">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+                        <span>Refresh</span>
+                    </button>
+                    <div class="live-badge-pill">
+                        <span class="live-dot"></span>
+                        <span id="live-clock">--:--:-- PKT</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- VIEW 1: MAIN 3D COMMAND OVERVIEW (OPTION 1) -->
+            <div id="view-overview" class="view-panel">
+                <!-- Center Stage: The Isometric Multi-Agent Hub -->
+                <section class="isometric-hub-section">
+                    <div class="hub-container">
+                        <!-- SVG Neural Data Streams -->
+                        <svg class="hub-connections-svg" viewBox="0 0 900 480">
+                            <line x1="450" y1="240" x2="160" y2="120" class="conn-line gold-line"/>
+                            <line x1="450" y1="240" x2="450" y2="70" class="conn-line cyan-line"/>
+                            <line x1="450" y1="240" x2="740" y2="120" class="conn-line green-line"/>
+                            <line x1="450" y1="240" x2="140" y2="340" class="conn-line purple-line"/>
+                            <line x1="450" y1="240" x2="300" y2="420" class="conn-line blue-line"/>
+                            <line x1="450" y1="240" x2="600" y2="420" class="conn-line orange-line"/>
+                            <line x1="450" y1="240" x2="760" y2="340" class="conn-line violet-line"/>
+                        </svg>
+
+                        <!-- Central Commander Agent Node -->
+                        <div class="agent-pedestal center-commander" onclick="selectAgent('commander')">
+                            <div class="pod-glow commander-glow"></div>
+                            <div class="robot-avatar commander-avatar">
+                                <span class="robot-face">🤖</span>
+                            </div>
+                            <div class="pod-info">
+                                <span class="pod-name">Commander Agent</span>
+                                <span class="pod-sub-badge"><span class="tiny-dot"></span> Managing 8 Agents</span>
+                            </div>
+                        </div>
+
+                        <!-- 1. Forex VIP Agent (Gold Pod) -->
+                        <div class="agent-pedestal pod-forex" onclick="selectAgent('forex')">
+                            <div class="pod-glow gold-glow"></div>
+                            <div class="robot-avatar gold-avatar">
+                                <span class="robot-face">📈</span>
+                            </div>
+                            <div class="pod-card-info">
+                                <div class="pod-header-row">
+                                    <span class="pod-title">ZainForexAutoBot (VIP)</span>
+                                </div>
+                                <span class="pod-desc">Gold XAU/USD &bull; MT5 Active</span>
+                                <div class="pod-progress-bar">
+                                    <div class="bar-fill gold-fill" style="width: 100%;"></div>
+                                </div>
+                                <div class="pod-pct gold-text">LIVE 🟢 (100%)</div>
+                            </div>
+                        </div>
+
+                        <!-- 2. Sophi Crypto Agent (Cyan Pod) -->
+                        <div class="agent-pedestal pod-sophi" onclick="selectAgent('sophi')">
+                            <div class="pod-glow cyan-glow"></div>
+                            <div class="robot-avatar cyan-avatar">
+                                <span class="robot-face">🪙</span>
+                            </div>
+                            <div class="pod-card-info">
+                                <div class="pod-header-row">
+                                    <span class="pod-title">Sophi Crypto Bot</span>
+                                </div>
+                                <span class="pod-desc">Binance Confluence &bull; 8 Pairs</span>
+                                <div class="pod-progress-bar">
+                                    <div class="bar-fill cyan-fill" style="width: 85%;"></div>
+                                </div>
+                                <div class="pod-pct cyan-text">+$0.83 (Green)</div>
+                            </div>
+                        </div>
+
+                        <!-- 3. SiteSeller Fast Cash (Green Pod) -->
+                        <div class="agent-pedestal pod-siteseller" onclick="selectAgent('siteseller')">
+                            <div class="pod-glow green-glow"></div>
+                            <div class="robot-avatar green-avatar">
+                                <span class="robot-face">💻</span>
+                            </div>
+                            <div class="pod-card-info">
+                                <div class="pod-header-row">
+                                    <span class="pod-title">SiteSeller Agent</span>
+                                </div>
+                                <span class="pod-desc">US/UK Lead Scraper & Websites</span>
+                                <div class="pod-progress-bar">
+                                    <div class="bar-fill green-fill" style="width: 70%;"></div>
+                                </div>
+                                <div class="pod-pct green-text">70% Ready</div>
+                            </div>
+                        </div>
+
+                        <!-- 4. Multimedia Studio (Purple Pod) -->
+                        <div class="agent-pedestal pod-media" onclick="selectAgent('media')">
+                            <div class="pod-glow purple-glow"></div>
+                            <div class="robot-avatar purple-avatar">
+                                <span class="robot-face">🎬</span>
+                            </div>
+                            <div class="pod-card-info">
+                                <div class="pod-header-row">
+                                    <span class="pod-title">Multimedia Studio</span>
+                                </div>
+                                <span class="pod-desc">Shorts, Reels & AI Voice</span>
+                                <div class="pod-progress-bar">
+                                    <div class="bar-fill purple-fill" style="width: 60%;"></div>
+                                </div>
+                                <div class="pod-pct purple-text">60% Queued</div>
+                            </div>
+                        </div>
+
+                        <!-- 5. Social Media Manager (Blue Pod) -->
+                        <div class="agent-pedestal pod-social" onclick="selectAgent('social')">
+                            <div class="pod-glow blue-glow"></div>
+                            <div class="robot-avatar blue-avatar">
+                                <span class="robot-face">📱</span>
+                            </div>
+                            <div class="pod-card-info">
+                                <div class="pod-header-row">
+                                    <span class="pod-title">Marketing AI Agent</span>
+                                </div>
+                                <span class="pod-desc">30-Day Calendar & Retainers</span>
+                                <div class="pod-progress-bar">
+                                    <div class="bar-fill blue-fill" style="width: 65%;"></div>
+                                </div>
+                                <div class="pod-pct blue-text">65% Prepared</div>
+                            </div>
+                        </div>
+
+                        <!-- 6. eBay Dropship Bot (Orange Pod) -->
+                        <div class="agent-pedestal pod-ebay" onclick="selectAgent('ebay')">
+                            <div class="pod-glow orange-glow"></div>
+                            <div class="robot-avatar orange-avatar">
+                                <span class="robot-face">📦</span>
+                            </div>
+                            <div class="pod-card-info">
+                                <div class="pod-header-row">
+                                    <span class="pod-title">eBay Dropship Bot</span>
+                                </div>
+                                <span class="pod-desc">Winning Product Hunting</span>
+                                <div class="pod-progress-bar">
+                                    <div class="bar-fill orange-fill" style="width: 45%;"></div>
+                                </div>
+                                <div class="pod-pct orange-text">45% Standby</div>
+                            </div>
+                        </div>
+
+                        <!-- 7. Deal Hunter (Violet Pod) -->
+                        <div class="agent-pedestal pod-deal" onclick="selectAgent('deal')">
+                            <div class="pod-glow violet-glow"></div>
+                            <div class="robot-avatar violet-avatar">
+                                <span class="robot-face">🤝</span>
+                            </div>
+                            <div class="pod-card-info">
+                                <div class="pod-header-row">
+                                    <span class="pod-title">Global Deal Hunter</span>
+                                </div>
+                                <span class="pod-desc">Freelance Project Scout</span>
+                                <div class="pod-progress-bar">
+                                    <div class="bar-fill violet-fill" style="width: 40%;"></div>
+                                </div>
+                                <div class="pod-pct violet-text">In Pipeline</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Bottom Metrics Strip (Option 1 matching) -->
+                <section class="bottom-metrics-bar">
+                    <div class="metric-progress-box">
+                        <div class="mp-label-row">
+                            <span class="mp-title">Overall System Progress</span>
+                            <span class="mp-val">76%</span>
+                        </div>
+                        <div class="mp-bar">
+                            <div class="mp-bar-fill" style="width: 76%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="mini-stat-card">
+                        <span class="ms-num">8</span>
+                        <span class="ms-label">Total Agents</span>
+                    </div>
+
+                    <div class="mini-stat-card">
+                        <span class="ms-num green-text">5</span>
+                        <span class="ms-label">Active Tasks</span>
+                    </div>
+
+                    <div class="mini-stat-card">
+                        <span class="ms-num cyan-text">3</span>
+                        <span class="ms-label">Completed</span>
+                    </div>
+
+                    <div class="mini-stat-card">
+                        <span class="ms-num">0</span>
+                        <span class="ms-label">Failed</span>
+                    </div>
+                </section>
+            </div>
+
+            <!-- VIEW 2: AGENT FOCUS VIEW (OPTION 2) -->
+            <div id="view-focus" class="view-panel" style="display: none;">
+                <div class="focus-layout">
+                    <!-- Left: Focus Agent List -->
+                    <div class="focus-agent-list">
+                        <div class="focus-list-header">Autonomous Agents (8)</div>
+                        <div class="focus-agent-item active" onclick="loadAgentDetails('forex')">
+                            <span class="f-dot gold-dot"></span>
+                            <div class="f-item-info">
+                                <span class="f-item-name">ZainForexAutoBot (VIP)</span>
+                                <span class="f-item-sub">Online &bull; MT5 XAU/USD</span>
+                            </div>
+                        </div>
+                        <div class="focus-agent-item" onclick="loadAgentDetails('sophi')">
+                            <span class="f-dot cyan-dot"></span>
+                            <div class="f-item-info">
+                                <span class="f-item-name">Sophi Crypto Bot</span>
+                                <span class="f-item-sub">Active &bull; Binance Spot</span>
+                            </div>
+                        </div>
+                        <div class="focus-agent-item" onclick="loadAgentDetails('siteseller')">
+                            <span class="f-dot green-dot"></span>
+                            <div class="f-item-info">
+                                <span class="f-item-name">SiteSeller Agent</span>
+                                <span class="f-item-sub">Ready &bull; Leads Scraper</span>
+                            </div>
+                        </div>
+                        <div class="focus-agent-item" onclick="loadAgentDetails('media')">
+                            <span class="f-dot purple-dot"></span>
+                            <div class="f-item-info">
+                                <span class="f-item-name">Multimedia Studio</span>
+                                <span class="f-item-sub">Ready &bull; 4 Sub-Agents</span>
+                            </div>
+                        </div>
+                        <div class="focus-agent-item" onclick="loadAgentDetails('social')">
+                            <span class="f-dot blue-dot"></span>
+                            <div class="f-item-info">
+                                <span class="f-item-name">Marketing AI Agent</span>
+                                <span class="f-item-sub">Ready &bull; 15 Tools</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Center: Agent Workspace & Live Console -->
+                    <div class="focus-workspace">
+                        <div class="fw-header">
+                            <div class="fw-agent-profile">
+                                <div class="fw-avatar" id="fw-avatar">📈</div>
+                                <div>
+                                    <h3 class="fw-name" id="fw-name">ZainForexAutoBot (Gold XAU/USD)</h3>
+                                    <p class="fw-desc" id="fw-desc">Institutional Gold EA with macroeconomic news filter & strict 1% risk cap.</p>
+                                </div>
+                            </div>
+                            <span class="fw-status-badge" id="fw-status">● ACTIVE (NORMAL)</span>
+                        </div>
+
+                        <div class="fw-tabs">
+                            <button class="fw-tab active">Live Telemetry</button>
+                            <button class="fw-tab">Strategy Rules</button>
+                            <button class="fw-tab">Configuration</button>
+                        </div>
+
+                        <div class="fw-terminal" id="fw-terminal">
+                            <div class="term-line">> [INIT] ZainForexAutoBot Standalone initialized on XAUUSD,M5</div>
+                            <div class="term-line">> [NEWS_FILTER] MT5 Economic Calendar verified. 26 records found.</div>
+                            <div class="term-line">> [RISK_GUARD] 1.00% max equity risk hard ceiling strictly locked.</div>
+                            <div class="term-line">> [TELEMETRY] Terminal active. 0 trades allowed in consolidation.</div>
+                        </div>
+
+                        <div class="fw-action-bar">
+                            <button class="btn-primary btn-sm" onclick="fetchLogs()">⟳ Pull Latest Logs</button>
+                            <button class="btn-voice btn-sm" onclick="playVoiceAnnouncement()">🔊 Audio Briefing</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VIEW 3: 3D WORKSPACE / VISUAL FLOW (OPTION 3) -->
+            <div id="view-3d" class="view-panel" style="display: none;">
+                <div class="v3d-canvas-wrapper">
+                    <div id="threejs-canvas-container"></div>
+                    <div class="v3d-instruction-overlay">
+                        <span>🖱️ Left-Click to Rotate &bull; Scroll to Zoom &bull; Drag to Pan 3D Workspace</span>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- 3. RIGHT ACTIVITY & TASKS SIDEBAR -->
+        <aside class="activity-sidebar" id="tasks-section">
+            <!-- Live Activity Feed -->
+            <div class="sidebar-section">
+                <div class="section-header">
+                    <h3 class="section-title">Live Activity Feed</h3>
+                    <span class="view-all-link">Live Stream</span>
+                </div>
+                <div class="activity-feed-list" id="activity-feed">
+                    <div class="activity-item">
+                        <span class="act-dot cyan-dot"></span>
+                        <div class="act-content">
+                            <div class="act-header">
+                                <span class="act-actor">Sophi Crypto Bot</span>
+                                <span class="act-time">Just now</span>
+                            </div>
+                            <p class="act-text">Scan #025 complete. Holding BNB (+0.03) & ETH (+0.009). Daily PnL: +$0.83 Green.</p>
+                        </div>
+                    </div>
+
+                    <div class="activity-item">
+                        <span class="act-dot gold-dot"></span>
+                        <div class="act-content">
+                            <div class="act-header">
+                                <span class="act-actor">ZainForexAutoBot</span>
+                                <span class="act-time">2m ago</span>
+                            </div>
+                            <p class="act-text">Session check passed. H1 ranging chop avoided; 100% capital preserved.</p>
+                        </div>
+                    </div>
+
+                    <div class="activity-item">
+                        <span class="act-dot green-dot"></span>
+                        <div class="act-content">
+                            <div class="act-header">
+                                <span class="act-actor">SiteSeller Agent</span>
+                                <span class="act-time">5m ago</span>
+                            </div>
+                            <p class="act-text">Cold email templates drafted for USA & UK high-margin business niches.</p>
+                        </div>
+                    </div>
+
+                    <div class="activity-item">
+                        <span class="act-dot purple-dot"></span>
+                        <div class="act-content">
+                            <div class="act-header">
+                                <span class="act-actor">Multimedia Studio</span>
+                                <span class="act-time">10m ago</span>
+                            </div>
+                            <p class="act-text">3 Viral short-form reel hooks queued for automated AI voiceover.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Current Tasks -->
+            <div class="sidebar-section">
+                <div class="section-header">
+                    <h3 class="section-title">Current Tasks</h3>
+                    <span class="view-all-link">5 Active</span>
+                </div>
+                <div class="task-list">
+                    <div class="task-card">
+                        <div class="task-info">
+                            <span class="task-title">24h Binance Soak Run</span>
+                            <span class="task-owner cyan-text">Sophi Crypto Bot</span>
+                        </div>
+                        <div class="task-progress-bar">
+                            <div class="bar-fill cyan-fill" style="width: 85%;"></div>
+                        </div>
+                        <span class="task-pct">85%</span>
+                    </div>
+
+                    <div class="task-card">
+                        <div class="task-info">
+                            <span class="task-title">London Session Vigil</span>
+                            <span class="task-owner gold-text">ZainForexAutoBot (VIP)</span>
+                        </div>
+                        <div class="task-progress-bar">
+                            <div class="bar-fill gold-fill" style="width: 100%;"></div>
+                        </div>
+                        <span class="task-pct">100%</span>
+                    </div>
+
+                    <div class="task-card">
+                        <div class="task-info">
+                            <span class="task-title">Scrape US/UK Leads</span>
+                            <span class="task-owner green-text">SiteSeller Agent</span>
+                        </div>
+                        <div class="task-progress-bar">
+                            <div class="bar-fill green-fill" style="width: 70%;"></div>
+                        </div>
+                        <span class="task-pct">70%</span>
+                    </div>
+
+                    <div class="task-card">
+                        <div class="task-info">
+                            <span class="task-title">Build 7-Day Agency Plan</span>
+                            <span class="task-owner blue-text">Marketing AI Agent</span>
+                        </div>
+                        <div class="task-progress-bar">
+                            <div class="bar-fill blue-fill" style="width: 65%;"></div>
+                        </div>
+                        <span class="task-pct">65%</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>

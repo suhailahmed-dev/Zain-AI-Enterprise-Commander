@@ -1,0 +1,81 @@
+{
+  "enterprise_name": "Zain AI Enterprise",
+  "founder": "Zain",
+  "commander": "Antigravity HQ Brain",
+  "version": "1.0.0",
+  "departments": {
+    "room_1_sofi_bot": {
+      "id": "room_1",
+      "name": "Sophi Crypto Bot",
+      "division": "Wealth & Trading",
+      "path": "C:\\Users\\nasee\\Desktop\\trading-bot",
+      "description": "Binance quantitative algorithmic trading bot (Live 24h Multi-Coin Confluence Runner Active)",
+      "status": "active_testnet",
+      "engine": "Python / Binance Spot Testnet"
+    },
+
+    "room_2_multimedia": {
+      "id": "room_2",
+      "name": "Multimedia Studio",
+      "division": "Creative Division",
+      "path": "C:\\Users\\nasee\\Desktop\\faceless_video_bot",
+      "description": "Automated video generation, scripts, voiceovers, and rendering",
+      "status": "standby",
+      "engine": "Python / MoviePy / TTS"
+    },
+    "room_3_ebay": {
+      "id": "room_3",
+      "name": "eBay E-Commerce Bot",
+      "division": "Agency & E-Commerce",
+      "path": "C:\\Users\\nasee\\Desktop\\ebay-dropship-bot",
+      "description": "Product hunting, supplier margin calculation, and listing automation",
+      "status": "standby",
+      "engine": "Python / Playwright"
+    },
+    "room_4_social_media": {
+      "id": "room_4",
+      "name": "Social Media Marketing Agent",
+      "division": "Agency & Retainers",
+      "path": "C:\\Users\\nasee\\Desktop\\marketing-ai-agent",
+      "description": "Automated content calendars, marketing campaigns, and client management",
+      "status": "standby",
+      "engine": "Python / FastMCP / FastAPI"
+    },
+    "room_5_siteseller": {
+      "id": "room_5",
+      "name": "SiteSeller Fast Cash Agent",
+      "division": "Direct Cash Engine",
+      "path": "C:\\Users\\nasee\\Desktop\\siteseller-agent",
+      "description": "Google Maps business leads scraper, 1-click landing page builder & outreach",
+      "status": "standby",
+      "engine": "Python / Vite / React Landing Pages"
+    },
+    "room_6_forex_ladla": {
+      "id": "room_6",
+      "name": "ZainForexAutoBot (VIP Ladla)",
+      "division": "Wealth & Trading",
+      "path": "C:\\Users\\nasee\\Desktop\\zainforexautobot",
+      "description": "MetaTrader 5 Gold institutional trading EA with HUD Dark Dashboard",
+      "status": "active_demo",
+      "engine": "MQL5 / MetaTrader 5 Terminal"
+    },
+    "room_7_deal_hunter": {
+      "id": "room_7",
+      "name": "Global Deal Hunter",
+      "division": "Business Development",
+      "path": "C:\\Users\\nasee\\Desktop\\zain_ai_enterprise\\departments\\deal_hunter",
+      "description": "Freelance client opportunities scanner and deal-closing assistant",
+      "status": "planned",
+      "engine": "Python / Web Scraper"
+    },
+    "room_8_finance_escrow": {
+      "id": "room_8",
+      "name": "Treasury, Invoicing & Escrow Room",
+      "division": "Finance & Deals Settlement",
+      "path": "C:\\Users\\nasee\\Desktop\\zain_ai_enterprise\\departments\\finance_treasury",
+      "description": "Client deal contracts, milestone escrow tracking, and payment settlement gateways",
+      "status": "ready",
+      "engine": "Python / Invoicing Engine"
+    }
+  }
+}

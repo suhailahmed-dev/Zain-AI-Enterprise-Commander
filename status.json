@@ -1,0 +1,78 @@
+{
+  "timestamp": "2026-10-08T01:36:49.731546",
+  "mt5_running": true,
+  "departments": {
+    "room_1_sofi_bot": {
+      "id": "room_1",
+      "name": "Sophi Crypto Bot",
+      "division": "Wealth & Trading",
+      "path": "C:\\Users\\nasee\\Desktop\\trading-bot",
+      "exists": true,
+      "file_count": 62,
+      "status": "active_testnet"
+    },
+    "room_2_multimedia": {
+      "id": "room_2",
+      "name": "Multimedia Studio",
+      "division": "Creative Division",
+      "path": "C:\\Users\\nasee\\Desktop\\faceless_video_bot",
+      "exists": true,
+      "file_count": 59,
+      "status": "READY (Assets Verified)"
+    },
+    "room_3_ebay": {
+      "id": "room_3",
+      "name": "eBay E-Commerce Bot",
+      "division": "Agency & E-Commerce",
+      "path": "C:\\Users\\nasee\\Desktop\\ebay-dropship-bot",
+      "exists": true,
+      "file_count": 8,
+      "status": "READY (Assets Verified)"
+    },
+    "room_4_social_media": {
+      "id": "room_4",
+      "name": "Social Media Marketing Agent",
+      "division": "Agency & Retainers",
+      "path": "C:\\Users\\nasee\\Desktop\\marketing-ai-agent",
+      "exists": true,
+      "file_count": 19,
+      "status": "READY (Assets Verified)"
+    },
+    "room_5_siteseller": {
+      "id": "room_5",
+      "name": "SiteSeller Fast Cash Agent",
+      "division": "Direct Cash Engine",
+      "path": "C:\\Users\\nasee\\Desktop\\siteseller-agent",
+      "exists": true,
+      "file_count": 12,
+      "status": "READY (Assets Verified)"
+    },
+    "room_6_forex_ladla": {
+      "id": "room_6",
+      "name": "ZainForexAutoBot (VIP Ladla)",
+      "division": "Wealth & Trading",
+      "path": "C:\\Users\\nasee\\Desktop\\zainforexautobot",
+      "exists": true,
+      "file_count": 12,
+      "status": "ONLINE (Active MT5)"
+    },
+    "room_7_deal_hunter": {
+      "id": "room_7",
+      "name": "Global Deal Hunter",
+      "division": "Business Development",
+      "path": "C:\\Users\\nasee\\Desktop\\zain_ai_enterprise\\departments\\deal_hunter",
+      "exists": false,
+      "file_count": 0,
+      "status": "NOT INSTALLED"
+    },
+    "room_8_finance_escrow": {
+      "id": "room_8",
+      "name": "Treasury, Invoicing & Escrow Room",
+      "division": "Finance & Deals Settlement",
+      "path": "C:\\Users\\nasee\\Desktop\\zain_ai_enterprise\\departments\\finance_treasury",
+      "exists": false,
+      "file_count": 0,
+      "status": "NOT INSTALLED"
+    }
+  }
+}
